@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Search Location</title>
+  </head>
+  <body>
+      <input id="autocomplete" placeholder="Enter your address" type="text"></input> <br>
+      lat: <input id="lat" type="text"></input> <br>
+      lon: <input id="lon" type="text"></input> <br>
+<div id="map" style="width:500px;height:500px"></div>
+    <script>
+
+      var autocomplete;
+      var map;
+      var marker=null;
+
+      function initAutocomplete() {
+        autocomplete = new google.maps.places.Autocomplete(
+            /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
+            {types: ['geocode']});
+        autocomplete.addListener('place_changed', fillInAddress);
+        initMap();
+      }
+
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {zoom:11});
+        setLocation('athens greece');
+      }
+
+      function setLocation(string){
+        var geo=new google.maps.Geocoder();
+        geo.geocode({address:string},function(array,status){
+          if(status == 'OK'){
+          map.setCenter(array[0].geometry.location);
+          //map.fitBounds(array[0].geometry.bounds);
+          map.addListener('rightclick',function(e){
+              document.getElementById('lat').value =e.latLng.lat();
+              document.getElementById('lon').value =e.latLng.lng();
+              marker.setOptions({position:e.latLng, visible:true});
+          });
+          autocomplete.setBounds(array[0].geometry.bounds);
+          if(marker==null) marker=new google.maps.Marker({map:map, position:array[0].geometry.location, opacity:0.4, animation:2, visible:false});
+          marker.addListener("mouseover",function(){marker.setOpacity(1);});
+          marker.addListener("mouseout",function(){marker.setOpacity(0.4);});
+          }
+        });
+      }
+
+      function setLocation1(string){
+        var geo=new google.maps.Geocoder();
+        geo.geocode({address:string},function(array,status){
+          if(status == 'OK'){
+          map.setCenter(array[0].geometry.location);
+          map.fitBounds(array[0].geometry.bounds);
+          map.addListener('rightclick',function(e){
+              document.getElementById('lat').value =e.latLng.lat();
+              document.getElementById('lon').value =e.latLng.lng();
+                marker.setOptions({position:e.latLng, visible:true});
+          });
+          autocomplete.setBounds(array[0].geometry.bounds);
+          marker=new google.maps.Marker({map:map, position:array[0].geometry.location, title:'nikos', opacity:0.4, label:'maragos', animation:2});
+          marker.addListener("mouseover",function(){marker.setOpacity(1);});
+          marker.addListener("mouseout",function(){marker.setOpacity(0.4);});
+          }
+        });
+      }
+
+
+
+      function fillInAddress() {
+        // Get the place details from the autocomplete object.
+        var place = autocomplete.getPlace();
+        document.getElementById('lat').value = place.geometry.location.lat();
+        document.getElementById('lon').value = place.geometry.location.lng();
+          marker.setOptions({position:place.geometry.location, visible:true});
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRrKdCnf50oQiDlEL4_Xrr5kpXdcHaGA0&libraries=places&callback=initAutocomplete"
+        async defer></script>
+  </body>
+</html>

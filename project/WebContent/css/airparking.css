@@ -1,0 +1,27 @@
+
+body {
+  background-color: #FFFFFF;
+  background-image:url("../images/parking-meter3.jpg");
+  background-attachment: scroll;
+  background-repeat: no-repeat;
+}
+
+.jumbotron{
+  margin-top: auto;
+  background: rgba(255, 255, 255, 0);
+}
+
+.form-group{
+ margin-top:10%;
+ left:10px;
+}
+
+.navbar-brand{
+  font-family: 'Titan One', cursive;
+}
+
+h1{
+  text-align:center;
+  font-family: 'Titan One', cursive;
+  text-shadow: 1px 1px 1px #FFFFFF;
+}
