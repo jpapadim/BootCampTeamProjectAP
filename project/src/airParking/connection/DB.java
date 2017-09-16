@@ -1,13 +1,14 @@
-package airParking.connection;
+package airparking.connection;
 
 import java.sql.*;
 
 public class DB {
 
 	private final String dbname = "air_parking";
-	private final String dbusername = "user";
-	private final String dbpassword = "user";
-
+	private final String dbusername = "mydb_user";
+	private final String dbpassword = "mydb_pass";
+	
+   
 	private Connection con = null;
 
 	/**
@@ -33,7 +34,7 @@ public class DB {
 		try {
 			// establish a connection with the database and creates a Connection
 			// object (con)
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + dbname, dbusername, dbpassword);
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + dbname+"?useSSL=false&characterEncoding=utf8&useUnicode=true", dbusername, dbpassword);
 		} catch (Exception e) {
 			con = null;
 			// throw SQLException if a database access error occurs
